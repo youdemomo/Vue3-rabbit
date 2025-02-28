@@ -2,7 +2,7 @@
     // 导入vueUse的定位滚动距离
     import { useScroll } from '@vueuse/core'
     import { getCategoryAPI } from '@/apis/layout'
-    import { onMounted, ref } from 'vue'
+    import { ref } from 'vue'
     import { useCategoryStore } from '@/stores/category'
 
     // 获取滚动高度
