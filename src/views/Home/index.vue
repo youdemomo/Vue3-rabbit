@@ -15,11 +15,4 @@
     <HomeNew />
     <HomeHot />
     <homeProduct />
-
-    <!-- 测试面板组件 -->
-    <HomePanel title="新鲜好物" sub-title="更多商品">
-    </HomePanel>
-
-    <HomePanel title="新鲜好物1" sub-title="更多商品1">
-    </HomePanel>
 </template>
