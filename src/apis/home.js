@@ -1,9 +1,15 @@
 import httpInstance from '@/utils/http'
 
-// 获取版型轮播图
-export function getBannerAPI() {
+// 获取轮播图
+export function getBannerAPI(params = {}) {
+  // 解构获取轮播图类型，默认是1（主页），分类是2
+  const { distributionSite = '1' } = params
+
   return httpInstance({
     url: '/home/banner',
+    params: {
+      distributionSite,
+    },
   })
 }
 

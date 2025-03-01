@@ -2,12 +2,14 @@
     import { getCategoryListAPI } from '@/apis/category'
     import { onMounted, ref } from 'vue';
     import { useRoute } from 'vue-router';
+    import { getBannerAPI } from '@/apis/home'
 
     // 获取数据
     const categoryData = ref({})
     // 获取路由器
     const route = useRoute()
 
+    // bro: 获取二级分类列表
     const getCategoryList = async () => {
         const res = await getCategoryListAPI(route.params.id)
         console.log(res);
@@ -16,6 +18,16 @@
     }
 
     onMounted(() => getCategoryList())
+
+    // bro: 获取轮播图
+    const bannerList = ref([])
+    const getBanner = async () => {
+        const res = await getBannerAPI({ distributionSite: '2' })
+        // console.log(res);
+        bannerList.value = res.result
+    }
+
+    onMounted(() => getBanner())
 
 </script>
 
@@ -29,6 +41,16 @@
                     <el-breadcrumb-item>{{ categoryData.name }}</el-breadcrumb-item>
                 </el-breadcrumb>
             </div>
+
+            <!-- 轮播图 -->
+            <div class="home-banner">
+                <el-carousel height="500px">
+                    <el-carousel-item v-for="item in bannerList" :key="item.id">
+                        <img :src="item.imgUrl" alt="接口大抵是寄了">
+                    </el-carousel-item>
+                </el-carousel>
+            </div>
+
         </div>
     </div>
 </template>
@@ -110,6 +132,18 @@
 
         .bread-container {
             padding: 25px 0;
+        }
+    }
+
+    // 轮播图样式
+    .home-banner {
+        width: 1240px;
+        height: 500px;
+        margin: 0 auto;
+
+        img {
+            width: 100%;
+            height: 500px;
         }
     }
 </style>
