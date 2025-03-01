@@ -10,8 +10,8 @@
     <div class="container">
         <HomeCategory />
         <HomeBanner />
+        <HomeNew />
+        <HomeHot />
+        <homeProduct />
     </div>
-    <HomeNew />
-    <HomeHot />
-    <homeProduct />
 </template>
