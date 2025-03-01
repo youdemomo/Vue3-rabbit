@@ -65,7 +65,7 @@
                 </ul>
             </div>
 
-            <!-- 二级商品列表 -->
+            <!-- 二级商品列表1 -->
             <div class="ref-goods" v-for="item in categoryData.children" :key="item.id">
                 <div class="head">
                     <h3>- {{ item.name }}-</h3>
