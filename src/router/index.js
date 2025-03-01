@@ -20,7 +20,7 @@ const router = createRouter({
         },
         // 分类
         {
-          path: 'category',
+          path: 'category/:id',
           component: Category,
         },
       ],

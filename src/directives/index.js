@@ -13,7 +13,7 @@ export const lazyPlugin = {
           el,
           ([{ isIntersecting }]) => {
             // 如果目标出现在视口，则会调用回调
-            console.log(isIntersecting)
+            // console.log(isIntersecting)
             if (isIntersecting) {
               el.src = binding.value
               // 图片加载后停止监听
