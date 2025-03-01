@@ -1,40 +1,13 @@
 <script setup>
-    import { getCategoryListAPI } from '@/apis/category'
-    import { onMounted, ref } from 'vue';
-    import { onBeforeRouteUpdate, useRoute } from 'vue-router';
-    import { getBannerAPI } from '@/apis/home'
     import GoodsItem from '../Home/components/GoodsItem.vue';
+    import { useBanner } from './composables/useBanner';
+    import { useCategory } from './composables/useCategory';
 
     // bro: 获取二级分类列表
-    // 获取数据
-    const categoryData = ref({})
-    // 获取路由器
-    const route = useRoute()
-    // 第一次路由时，从路由器中拿到传参
-    const getCategoryList = async (id = route.params.id) => {
-        const res = await getCategoryListAPI(id)
-        // console.log(res);
-        categoryData.value = res.result
-    }
-
-    onMounted(() => getCategoryList())
-
-    // bro: 路由参数变化时，将分类数据接口重新发送
-    // 通过参数to获取最新路由传参
-    onBeforeRouteUpdate((to) => {
-        console.log("检测到路由变化");
-        getCategoryList(to.params.id)
-    })
+    const { categoryData } = useCategory()
 
     // bro: 获取轮播图
-    const bannerList = ref([])
-    const getBanner = async () => {
-        const res = await getBannerAPI({ distributionSite: '2' })
-        // console.log(res);
-        bannerList.value = res.result
-    }
-
-    onMounted(() => getBanner())
+    const { bannerList } = useBanner()
 
 </script>
 
