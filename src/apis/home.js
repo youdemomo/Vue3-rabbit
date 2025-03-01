@@ -19,3 +19,9 @@ export const getHotAPI = () =>
   httpInstance({
     url: '/home/hot',
   })
+
+// 获取所有商品列表
+export const getGoodsAPI = () =>
+  httpInstance({
+    url: '/home/goods',
+  })

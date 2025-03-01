@@ -7,7 +7,7 @@ export const lazyPlugin = {
     // 定义全局指令，用于图片懒加载
     app.directive('img-lazy', {
       mounted(el, binding) {
-        console.log(el, binding.value)
+        // console.log(el, binding.value)
         const { stop } = useIntersectionObserver(
           // 监听目标
           el,
