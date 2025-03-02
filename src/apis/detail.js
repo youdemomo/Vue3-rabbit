@@ -8,3 +8,14 @@ export const getDetailAPI = id =>
       id,
     },
   })
+
+// 获取热榜商品
+export const getHotGoodsAPI = ({ id, type, limit = 3 }) =>
+  request({
+    url: '/goods/hot',
+    params: {
+      id,
+      type,
+      limit,
+    },
+  })
