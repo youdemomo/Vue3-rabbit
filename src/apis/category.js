@@ -18,3 +18,11 @@ export const getCategoryFilterAPI = id =>
       id,
     },
   })
+
+// 获取二级分类列表中的导航数据
+export const getSubCategoryAPI = data =>
+  request({
+    url: '/category/goods/temporary',
+    method: 'POST',
+    data,
+  })
