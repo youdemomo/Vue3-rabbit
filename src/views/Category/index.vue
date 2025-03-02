@@ -3,7 +3,7 @@
     import { useBanner } from './composables/useBanner';
     import { useCategory } from './composables/useCategory';
 
-    // bro: 获取二级分类列表
+    // bro: 获取一级分类列表
     const { categoryData } = useCategory()
 
     // bro: 获取轮播图
@@ -36,7 +36,7 @@
                 <h3>全部分类</h3>
                 <ul>
                     <li v-for="i in categoryData.children" :key="i.id">
-                        <RouterLink to="/">
+                        <RouterLink :to="`/category/sub/${i.id}`">
                             <img :src="i.picture" />
                             <p>{{ i.name }}</p>
                         </RouterLink>

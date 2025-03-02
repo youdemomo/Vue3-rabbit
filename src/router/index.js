@@ -3,6 +3,7 @@ import Login from '@/views/Login/index.vue'
 import Layout from '@/views/Layout/index.vue'
 import Home from '@/views/Home/index.vue'
 import Category from '@/views/Category/index.vue'
+import SubCategory from '@/views/SubCatecory/index.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -18,10 +19,15 @@ const router = createRouter({
           path: '',
           component: Home,
         },
-        // 分类
+        // 一级分类
         {
           path: 'category/:id',
           component: Category,
+        },
+        // 二级分类
+        {
+          path: 'category/sub/:id',
+          component: SubCategory,
         },
       ],
     },
