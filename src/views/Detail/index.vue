@@ -126,9 +126,9 @@
                         <!-- 24热榜+专题推荐 -->
                         <div class="goods-aside">
                             <!-- 24小时榜 -->
-                            <DetailHot />
+                            <DetailHot :hotType="1" title="24小时热榜" />
                             <!-- 周榜 -->
-                            <DetailHot />
+                            <DetailHot :hotType="0" title="周热榜" />
                         </div>
                     </div>
                 </div>
