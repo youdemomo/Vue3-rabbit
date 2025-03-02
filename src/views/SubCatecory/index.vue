@@ -43,7 +43,7 @@
     // todo: 滚动到底部时加载更多
     const disable = ref(false)
     const load = async () => {
-        console.log('加载更多');
+        // console.log('加载更多');
         // 获取下一页数据
         reqData.value.page++
         const res = await getSubCategoryAPI(reqData.value)
