@@ -1,6 +1,6 @@
 <script setup>
     import { ref, watch } from 'vue'
-    import { useMouseInElement } from '@vueuse/core'
+    import { pxValue, useMouseInElement } from '@vueuse/core'
 
     // 图片列表
     const imageList = [
@@ -19,16 +19,20 @@
         // console.log(activeIndex.value);
     }
 
-    // todo: VueUse实现图片放大效果
+    // todo: VueUse实现鼠标跟随图片放大效果
     const target = ref(null)
     const { elementX, elementY, isOutside } = useMouseInElement(target)
     const left = ref(0)
     const top = ref(0)
+    const positionX = ref(0)
+    const positionY = ref(0)
 
     // 监听鼠标坐标的变化
-    watch([elementX, elementY], () => {
+    watch([elementX, elementY, isOutside], () => {
+        // bro: 滑块跟随鼠标
         // console.log('xy变化了');
         // 横向
+        if (isOutside.value) return
         if (elementX.value > 100 && elementX.value < 300) {
             left.value = elementX.value - 100
         }
@@ -51,7 +55,13 @@
         if (elementY.value < 100) {
             top.value = 0
         }
+
+        // bro: 图片放大
+        positionX.value = -left.value * 2
+        positionY.value = -top.value * 2
     })
+
+
 </script>
 
 
@@ -75,11 +85,11 @@
         <!-- 放大镜大图 -->
         <div class="large" :style="[
             {
-                backgroundImage: `url(${imageList[0]})`,
-                backgroundPositionX: `0px`,
-                backgroundPositionY: `0px`,
+                backgroundImage: `url(${imageList[activeIndex]})`,
+                backgroundPositionX: `${positionX}px`,
+                backgroundPositionY: `${positionY}px`,
             },
-        ]" v-show="false"></div>
+        ]" v-if="!isOutside"></div>
     </div>
 </template>
 
