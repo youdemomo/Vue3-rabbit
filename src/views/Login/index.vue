@@ -1,9 +1,12 @@
 <script setup>
     import { ref } from 'vue';
-    import { loginAPI } from '@/apis/user'
     import { ElMessage } from 'element-plus';
     import 'element-plus/theme-chalk/el-message.css'
     import { useRouter } from 'vue-router';
+    import { useUserStore } from '@/stores/user'
+
+    // todo: 获取用户菠萝
+    const userStore = useUserStore()
 
     // todo: 登录表单校验
     // 表单对象
@@ -60,8 +63,9 @@
 
             if (valid) {
                 // 登录逻辑（测试账户：heima290 hm#qd@23!）
-                const res = await loginAPI({ account, password })
-                console.log(res);
+                await userStore.getUserInfo({ account, password })
+                console.log(userStore.userInfo);
+
 
                 // 登录提示
                 ElMessage({ type: 'success', message: '登录成功' })
