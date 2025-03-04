@@ -15,9 +15,15 @@ export const useUserStore = defineStore(
       userInfo.value = res.result
     }
 
+    // 清除用户信息
+    const clearUserInfo = () => {
+      userInfo.value = {}
+    }
+
     return {
       userInfo,
       getUserInfo,
+      clearUserInfo,
     }
   },
   // 开启数据持久化
