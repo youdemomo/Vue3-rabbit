@@ -64,8 +64,7 @@
             if (valid) {
                 // 登录逻辑（测试账户：heima290 hm#qd@23!）
                 await userStore.getUserInfo({ account, password })
-                console.log(userStore.userInfo);
-
+                // console.log(userStore.userInfo);
 
                 // 登录提示
                 ElMessage({ type: 'success', message: '登录成功' })

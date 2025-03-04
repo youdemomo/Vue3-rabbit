@@ -3,14 +3,15 @@ import axios from 'axios'
 import { ElMessage } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 import { useUserStore } from '@/stores/user'
+import router from '@/router'
 
-// bro: 创建axios实例
+// todo: 创建axios实例
 const httpInstance = axios.create({
   baseURL: 'http://pcapi-xiaotuxian-front-devtest.itheima.net',
   timeout: 6000,
 })
 
-// bro: 拦截器
+// todo: 拦截器
 // 1.axios请求拦截器
 httpInstance.interceptors.request.use(
   config => {
@@ -31,12 +32,22 @@ httpInstance.interceptors.request.use(
 httpInstance.interceptors.response.use(
   res => res.data,
   e => {
-    // 统一错误提示
+    const userStore = useUserStore()
+    // bro: 统一错误提示
     ElMessage({
       type: 'warning',
       // 弹出后端返回的错误信息
       message: e.response.data.msg,
     })
+
+    // bro: 401token失效处理
+    if (e.response.status === 401) {
+      // 清除pinia用户数据
+      userStore.clearUserInfo()
+      // 跳转到登录页
+      router.push('/login')
+    }
+
     return Promise.reject(e)
   },
 )
