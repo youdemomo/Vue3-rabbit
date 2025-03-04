@@ -81,7 +81,7 @@
             <!-- 显示鼠标停留的小图 -->
             <img :src="imageList[activeIndex]" alt="" />
             <!-- 蒙层小滑块 -->
-            <div class="layer" :style="{ left: `${left}px`, top: `${top}px` }"></div>
+            <div v-show="!isOutside" class="layer" :style="{ left: `${left}px`, top: `${top}px` }"></div>
         </div>
         <!-- 小图列表 -->
         <ul class="small">
