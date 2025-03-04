@@ -2,12 +2,11 @@
     import { ref } from 'vue';
 
     // todo: 登录表单校验
-    // bro: 用户名和密码
-
     // 表单对象
     const form = ref({
         account: '',
         password: '',
+        isAgree: false
     })
 
     // 规则对象
@@ -28,7 +27,18 @@
                 message: '密码应在6-14位',
                 trigger: 'blur'
             }
-        ]
+        ],
+        isAgree: [{
+            validator: (rule, value, callback) => {
+                // console.log(value);
+                // 勾选后通过
+                if (value) {
+                    callback()
+                } else {
+                    callback(new Error("请勾选用户协议"))
+                }
+            }
+        }]
     }
 </script>
 
@@ -61,8 +71,8 @@
                             <el-form-item prop="password" label="密码">
                                 <el-input v-model="form.password" />
                             </el-form-item>
-                            <el-form-item label-width="22px">
-                                <el-checkbox size="large">
+                            <el-form-item prop="isAgree" label-width="22px">
+                                <el-checkbox size="large" v-model="form.isAgree">
                                     我已同意隐私条款和服务条款
                                 </el-checkbox>
                             </el-form-item>
