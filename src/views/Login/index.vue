@@ -1,5 +1,9 @@
 <script setup>
     import { ref } from 'vue';
+    import { loginAPI } from '@/apis/user'
+    import { ElMessage } from 'element-plus';
+    import 'element-plus/theme-chalk/el-message.css'
+    import { useRouter } from 'vue-router';
 
     // todo: 登录表单校验
     // 表单对象
@@ -44,14 +48,28 @@
     // todo: 全局校验
     // 获取全局实例
     const formRef = ref(null)
+    // 获取路由器
+    const router = useRouter()
     // 登录回调
     const doLogin = () => {
-        formRef.value.validate(valid => {
+        // 获取用户输入
+        const { account, password } = form.value
+        formRef.value.validate(async valid => {
             // 所有表单通过校验此处为true
             // console.log(valid);
 
             if (valid) {
-                // alert('你好')
+                // 登录逻辑（测试账户：heima290 hm#qd@23!）
+                const res = await loginAPI({ account, password })
+                console.log(res);
+
+                // 登录提示
+                ElMessage({ type: 'success', message: '登录成功' })
+
+                // 登录成功后跳转
+                router.replace({
+                    path: '/'
+                })
             }
         })
     }
