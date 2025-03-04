@@ -40,6 +40,22 @@
             }
         }]
     }
+
+    // todo: 全局校验
+    // 获取全局实例
+    const formRef = ref(null)
+    // 登录回调
+    const doLogin = () => {
+        formRef.value.validate(valid => {
+            // 所有表单通过校验此处为true
+            // console.log(valid);
+
+            if (valid) {
+                // alert('你好')
+            }
+        })
+    }
+
 </script>
 
 
@@ -64,7 +80,8 @@
                 </nav>
                 <div class="account-box">
                     <div class="form">
-                        <el-form :model="form" :rules="rules" label-position="right" label-width="60px" status-icon>
+                        <el-form ref="formRef" :model="form" :rules="rules" label-position="right" label-width="60px"
+                            status-icon>
                             <el-form-item prop="account" label="账户">
                                 <el-input v-model="form.account" />
                             </el-form-item>
@@ -76,7 +93,7 @@
                                     我已同意隐私条款和服务条款
                                 </el-checkbox>
                             </el-form-item>
-                            <el-button size="large" class="subBtn">点击登录</el-button>
+                            <el-button size="large" class="subBtn" @click="doLogin">点击登录</el-button>
                         </el-form>
                     </div>
                 </div>
