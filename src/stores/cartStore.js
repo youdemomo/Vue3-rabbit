@@ -20,9 +20,19 @@ export const useCartStore = defineStore(
       }
     }
 
+    // todo: 删除购物车商品
+    const delCart = skuId => {
+      // skuId作为购物车商品的唯一标识
+      const i = cartList.value.findIndex(good => skuId === good.skuId)
+
+      // 根据下标删除商品
+      cartList.value.splice(i, 1)
+    }
+
     return {
       cartList,
       addCart,
+      delCart,
     }
   },
   {
