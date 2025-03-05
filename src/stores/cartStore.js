@@ -36,7 +36,7 @@ export const useCartStore = defineStore(
 
     // todo: 计算总价
     const allPrice = computed(() =>
-      cartList.value.reduce((a, b) => a + b.count * b.price, 0),
+      cartList.value.reduce((a, b) => a + b.count * b.price, 0).toFixed(2),
     )
 
     return {
