@@ -45,6 +45,18 @@ export const useCartStore = defineStore(
       item.selected = selected
     }
 
+    // todo: 计算是否全选
+    const isAll = computed(() =>
+      cartList.value.every(item => item.selected === true),
+    )
+
+    // todo: 全选框功能
+    const allCheck = selected => {
+      cartList.value.forEach(item => {
+        item.selected = selected
+      })
+    }
+
     return {
       cartList,
       addCart,
@@ -52,6 +64,8 @@ export const useCartStore = defineStore(
       allCount,
       allPrice,
       singleCheck,
+      isAll,
+      allCheck,
     }
   },
   {

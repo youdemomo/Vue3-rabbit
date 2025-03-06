@@ -10,6 +10,12 @@
         // console.log(i, selected);
         cartStore.singleCheck(i.skuId, selected)
     }
+
+    // 全选框的回调
+    const allCheck = (selected) => {
+        cartStore.allCheck(selected)
+    }
+
 </script>
 
 <template>
@@ -20,7 +26,8 @@
                     <thead>
                         <tr>
                             <th width="120">
-                                <el-checkbox />
+                                <!-- 全选框 -->
+                                <el-checkbox :modelValue="cartStore.isAll" @change="allCheck" />
                             </th>
                             <th width="400">商品信息</th>
                             <th width="220">单价</th>
