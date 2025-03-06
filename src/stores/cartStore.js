@@ -57,6 +57,21 @@ export const useCartStore = defineStore(
       })
     }
 
+    // todo: 计算列表购物车已选商品数量
+    const selectedCount = computed(() =>
+      cartList.value
+        .filter(item => item.selected === true)
+        .reduce((a, b) => a + b.count, 0),
+    )
+
+    // todo: 计算列表购物车已选商品价格
+    const selectedPrice = computed(() =>
+      cartList.value
+        .filter(item => item.selected === true)
+        .reduce((a, b) => a + b.count * b.price, 0)
+        .toFixed(2),
+    )
+
     return {
       cartList,
       addCart,
@@ -66,6 +81,8 @@ export const useCartStore = defineStore(
       singleCheck,
       isAll,
       allCheck,
+      selectedCount,
+      selectedPrice,
     }
   },
   {
