@@ -27,3 +27,11 @@ export const delCartAPI = ids =>
       ids,
     },
   })
+
+// todo: 合并购物车
+export const mergeCartAPI = data =>
+  request({
+    url: '/member/cart/merge',
+    method: 'POST',
+    data,
+  })
