@@ -39,12 +39,19 @@ export const useCartStore = defineStore(
       cartList.value.reduce((a, b) => a + b.count * b.price, 0).toFixed(2),
     )
 
+    // todo: 列表购物车单选框
+    const singleCheck = (skuId, selected) => {
+      const item = cartList.value.find(item => item.skuId === skuId)
+      item.selected = selected
+    }
+
     return {
       cartList,
       addCart,
       delCart,
       allCount,
       allPrice,
+      singleCheck,
     }
   },
   {

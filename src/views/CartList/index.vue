@@ -4,6 +4,12 @@
 
     const cartStore = useCartStore()
     const { cartList } = storeToRefs(cartStore)
+
+    // todo: 单选框的回调
+    const singleCheck = (i, selected) => {
+        // console.log(i, selected);
+        cartStore.singleCheck(i.skuId, selected)
+    }
 </script>
 
 <template>
@@ -27,7 +33,9 @@
                     <tbody>
                         <tr v-for="i in cartList" :key="i.id">
                             <td>
-                                <el-checkbox />
+                                <!-- 单选框 -->
+                                <el-checkbox :model-value="i.selected"
+                                    @change="(selected) => singleCheck(i, selected)" />
                             </td>
                             <td>
                                 <div class="goods">
