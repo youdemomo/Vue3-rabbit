@@ -1,26 +1,30 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import { useUserStore } from './user'
-import { insertCartAPI, findNewCartListAPI } from '@/apis/cart'
+import { insertCartAPI, findNewCartListAPI, delCartAPI } from '@/apis/cart'
 
 export const useCartStore = defineStore(
   'cart',
   () => {
+    // todo: 拿到用户token，判断是否登录
+    const userStore = useUserStore()
+    const isLogin = computed(() => userStore.userInfo.token)
     // 购物车列表
     const cartList = ref([])
 
+    // todo: 获取购物车列表
+    const updateNewList = async () => {
+      const res = await findNewCartListAPI()
+      cartList.value = res.result
+    }
+
     // todo: 添加到购物车
     const addCart = async goods => {
-      if (isLogin) {
+      if (isLogin.value) {
         // 登录之后的逻辑（走接口），后面都一样
         const { skuId, count } = goods
         await insertCartAPI({ skuId, count })
-
-        // 添加商品后再次渲染购物车列表
-        const res = await findNewCartListAPI()
-
-        // 覆盖本地购物车列表
-        cartList.value = res.result
+        updateNewList()
       } else {
         // 判断商品是否加入购物车(通过传来的skuId是否能在cartList中找到)
         const item = cartList.value.find(good => good.skuId === goods.skuId)
@@ -35,12 +39,17 @@ export const useCartStore = defineStore(
     }
 
     // todo: 删除购物车商品
-    const delCart = skuId => {
-      // skuId作为购物车商品的唯一标识
-      const i = cartList.value.findIndex(good => skuId === good.skuId)
+    const delCart = async skuId => {
+      if (isLogin.value) {
+        await delCartAPI([skuId])
+        updateNewList()
+      } else {
+        // skuId作为购物车商品的唯一标识
+        const i = cartList.value.findIndex(good => skuId === good.skuId)
 
-      // 根据下标删除商品
-      cartList.value.splice(i, 1)
+        // 根据下标删除商品
+        cartList.value.splice(i, 1)
+      }
     }
 
     // todo: 计算总量
@@ -85,10 +94,6 @@ export const useCartStore = defineStore(
         .reduce((a, b) => a + b.count * b.price, 0)
         .toFixed(2),
     )
-
-    // todo: 拿到用户token，判断是否登录
-    const userStore = useUserStore()
-    const isLogin = computed(() => userStore.userInfo.token)
 
     return {
       cartList,
