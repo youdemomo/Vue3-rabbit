@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
+import { useUserStore } from './user'
+import { insertCartAPI, findNewCartListAPI } from '@/apis/cart'
 
 export const useCartStore = defineStore(
   'cart',
@@ -8,15 +10,27 @@ export const useCartStore = defineStore(
     const cartList = ref([])
 
     // todo: 添加到购物车
-    const addCart = goods => {
-      // 判断商品是否加入购物车(通过传来的skuId是否能在cartList中找到)
-      const item = cartList.value.find(good => good.skuId === goods.skuId)
+    const addCart = async goods => {
+      if (isLogin) {
+        // 登录之后的逻辑（走接口），后面都一样
+        const { skuId, count } = goods
+        await insertCartAPI({ skuId, count })
 
-      if (item) {
-        // 商品已在购物车中
-        item.count++
+        // 添加商品后再次渲染购物车列表
+        const res = await findNewCartListAPI()
+
+        // 覆盖本地购物车列表
+        cartList.value = res.result
       } else {
-        cartList.value.push(goods)
+        // 判断商品是否加入购物车(通过传来的skuId是否能在cartList中找到)
+        const item = cartList.value.find(good => good.skuId === goods.skuId)
+
+        if (item) {
+          // 商品已在购物车中
+          item.count++
+        } else {
+          cartList.value.push(goods)
+        }
       }
     }
 
@@ -71,6 +85,10 @@ export const useCartStore = defineStore(
         .reduce((a, b) => a + b.count * b.price, 0)
         .toFixed(2),
     )
+
+    // todo: 拿到用户token，判断是否登录
+    const userStore = useUserStore()
+    const isLogin = computed(() => userStore.userInfo.token)
 
     return {
       cartList,

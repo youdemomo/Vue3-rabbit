@@ -62,7 +62,7 @@
             // console.log(valid);
 
             if (valid) {
-                // 登录逻辑（测试账户：heima290 hm#qd@23!）
+                // 登录逻辑
                 await userStore.getUserInfo({ account, password })
                 // console.log(userStore.userInfo);
 
