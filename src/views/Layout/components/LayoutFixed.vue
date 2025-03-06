@@ -3,7 +3,7 @@
     import { useScroll } from '@vueuse/core'
     import { getCategoryAPI } from '@/apis/layout'
     import { ref } from 'vue'
-    import { useCategoryStore } from '@/stores/category'
+    import { useCategoryStore } from '@/stores/categoryStore'
 
     // 获取滚动高度
     const { y } = useScroll(window)

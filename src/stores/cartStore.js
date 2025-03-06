@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
-import { useUserStore } from './user'
+import { useUserStore } from './userStore'
 import { insertCartAPI, findNewCartListAPI, delCartAPI } from '@/apis/cart'
 
 export const useCartStore = defineStore(
@@ -95,6 +95,11 @@ export const useCartStore = defineStore(
         .toFixed(2),
     )
 
+    // todo: 清空购物车
+    const clearCart = () => {
+      cartList.value = []
+    }
+
     return {
       cartList,
       addCart,
@@ -106,6 +111,7 @@ export const useCartStore = defineStore(
       allCheck,
       selectedCount,
       selectedPrice,
+      clearCart,
     }
   },
   {
