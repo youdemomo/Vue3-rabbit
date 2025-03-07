@@ -1,7 +1,12 @@
 <script setup>
-  import { getCheckInfoAPI } from '@/apis/checkout'
+  import { getCheckInfoAPI, createOrderAPI } from '@/apis/checkout'
   import { onMounted, ref } from 'vue';
   import { ElMessage } from 'element-plus';
+  import { useRouter } from 'vue-router';
+  import { useCartStore } from '@/stores/cartStore';
+
+  const router = useRouter()
+  const cartStore = useCartStore()
 
   // todo: 获取下单详情
   const checkInfo = ref({})  // 订单对象
@@ -38,6 +43,30 @@
       type: 'success',
       message: '更改成功'
     })
+  }
+
+  // todo: 创建订单
+  const createOrder = async () => {
+    const res = await createOrderAPI({
+      deliveryTimeType: 1,
+      payType: 1,
+      payChannel: 1,
+      buyerMessage: "",
+      goods: checkInfo.value.goods.map(item => {
+        return {
+          skuId: item.skuId,
+          count: item.count
+        }
+      }),
+      addressId: curAddress.value.id
+    })
+    // 获取订单id
+    // console.log(res);
+    const orderId = res.result.id
+    router.push(`/pay?id=${orderId}`)
+
+    // 更新购物车
+    cartStore.updateNewList()
   }
 
 
@@ -140,7 +169,7 @@
 
         <!-- 提交订单 -->
         <div class="submit">
-          <el-button type="primary" size="large">提交订单</el-button>
+          <el-button type="primary" size="large" @click="createOrder">提交订单</el-button>
         </div>
       </div>
     </div>

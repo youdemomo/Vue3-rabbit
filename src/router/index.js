@@ -7,6 +7,7 @@ import SubCategory from '@/views/SubCatecory/index.vue'
 import Detail from '@/views/Detail/index.vue'
 import CartList from '@/views/CartList/index.vue'
 import Checkout from '@/views/Checkout/index.vue'
+import Pay from '@/views/Pay/index.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -46,6 +47,11 @@ const router = createRouter({
         {
           path: 'checkout',
           component: Checkout,
+        },
+        // 支付界面
+        {
+          path: '/pay',
+          component: Pay,
         },
       ],
     },
