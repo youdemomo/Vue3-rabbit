@@ -5,17 +5,21 @@
 
     const route = useRoute()
 
-    // todo: 获取订单详情
+    // 获取订单详情
     const payInfo = ref({})
     const getPayInfo = async () => {
         const res = await getOrderAPI(route.query.id)
         console.log(res);
-
         payInfo.value = res.result
     }
 
     onMounted(() => getPayInfo())
 
+    // 跳转支付
+    const baseUrl = 'http://pcapi-xiaotuxian-front-devtest.itheima.net/'
+    const backUrl = 'http://127.0.0.1:5173/paycallback' // 修正大小写
+    const redirectUrl = encodeURIComponent(backUrl) // 修正变量名
+    const payUrl = `${baseUrl}pay/aliPay?orderId=${route.query.id}&redirect=${redirectUrl}` // 使用正确的变量名
 </script>
 
 
