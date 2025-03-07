@@ -1,6 +1,7 @@
 <script setup>
   import { getCheckInfoAPI } from '@/apis/checkout'
   import { onMounted, ref } from 'vue';
+  import { ElMessage } from 'element-plus';
 
   // todo: 获取下单详情
   const checkInfo = ref({})  // 订单对象
@@ -18,7 +19,26 @@
 
   onMounted(() => getCheckInfo())
 
+  // todo: 控制更改地址弹窗显示
+  const showDialog = ref(false)
 
+  // todo: 切换地址
+  const activeAddr = ref({})
+  const switchAddr = item => {
+    // 存储选中的地址
+    activeAddr.value = item
+    // console.log(activeAddr.value)
+  }
+
+  // todo: 提交切换好的地址
+  const submitAddr = () => {
+    curAddress.value = activeAddr.value
+    showDialog.value = false
+    ElMessage({
+      type: 'success',
+      message: '更改成功'
+    })
+  }
 
 
 </script>
@@ -40,11 +60,12 @@
               </ul>
             </div>
             <div class="action">
-              <el-button size="large" @click="toggleFlag = true">切换地址</el-button>
+              <el-button size="large" @click="showDialog = true">切换地址</el-button>
               <el-button size="large" @click="addFlag = true">添加地址</el-button>
             </div>
           </div>
         </div>
+
         <!-- 商品信息 -->
         <h3 class="box-title">商品信息</h3>
         <div class="box-body">
@@ -77,6 +98,7 @@
             </tbody>
           </table>
         </div>
+
         <!-- 配送时间 -->
         <h3 class="box-title">配送时间</h3>
         <div class="box-body">
@@ -84,6 +106,7 @@
           <a class="my-btn" href="javascript:;">工作日送货：周一至周五</a>
           <a class="my-btn" href="javascript:;">双休日、假日送货：周六至周日</a>
         </div>
+
         <!-- 支付方式 -->
         <h3 class="box-title">支付方式</h3>
         <div class="box-body">
@@ -91,6 +114,7 @@
           <a class="my-btn" href="javascript:;">货到付款</a>
           <span style="color:#999">货到付款需付5元手续费</span>
         </div>
+
         <!-- 金额明细 -->
         <h3 class="box-title">金额明细</h3>
         <div class="box-body">
@@ -113,6 +137,7 @@
             </dl>
           </div>
         </div>
+
         <!-- 提交订单 -->
         <div class="submit">
           <el-button type="primary" size="large">提交订单</el-button>
@@ -120,7 +145,27 @@
       </div>
     </div>
   </div>
+
   <!-- 切换地址 -->
+  <el-dialog v-model="showDialog" title="切换收货地址" width="30%" center>
+    <div class="addressWrapper">
+      <div class="text item" :class="{ active: activeAddr.id === item.id }" @click="switchAddr(item)"
+        v-for="item in checkInfo.userAddresses" :key="item.id">
+        <ul>
+          <li><span>收<i />货<i />人：</span>{{ item.receiver }} </li>
+          <li><span>联系方式：</span>{{ item.contact }}</li>
+          <li><span>收货地址：</span>{{ item.fullLocation + item.address }}</li>
+        </ul>
+      </div>
+    </div>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="showDialog = flase">取消</el-button>
+        <el-button type="primary" @click="submitAddr">确定</el-button>
+      </span>
+    </template>
+  </el-dialog>
+
   <!-- 添加地址 -->
 </template>
 
