@@ -67,7 +67,13 @@ const router = createRouter({
           path: 'member',
           component: Member,
           children: [
+            // 进入个人中心时重定向到用户界面
             {
+              path: '',
+              redirect: { name: 'user' },
+            },
+            {
+              name: 'user',
               path: 'user',
               component: UserInfo,
             },

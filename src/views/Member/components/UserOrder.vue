@@ -24,7 +24,7 @@
 
     const getUserOrder = async () => {
         const res = await getUserOrderAPI(params.value)
-        console.log(res);
+        // console.log(res);
         orderList.value = res.result.items
         total.value = res.result.counts
     }
@@ -33,7 +33,7 @@
 
     // todo: tab切换
     const tabChange = type => {
-        console.log(type);
+        // console.log(type);
         // 获取tab切换的orderState，传给后端
         params.value.orderState = type
         getUserOrder()
@@ -44,6 +44,20 @@
         console.log(page);
         params.value.pageSize = page
         getUserOrder()
+    }
+
+    // todo: 显示当前tab名称
+    const formatPayState = payState => {
+        const stateMap = {
+            1: '待付款',
+            2: '待发货',
+            3: '待收货',
+            4: '待评价',
+            5: '已完成',
+            6: '已取消',
+        }
+
+        return stateMap[payState]
     }
 
 </script>
@@ -91,7 +105,7 @@
                                 </ul>
                             </div>
                             <div class="column state">
-                                <p>{{ order.orderState }}</p>
+                                <p>{{ formatPayState(order.orderState) }}</p>
                                 <p v-if="order.orderState === 3">
                                     <a href="javascript:;" class="green">查看物流</a>
                                 </p>
