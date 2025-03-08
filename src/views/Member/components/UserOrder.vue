@@ -23,16 +23,24 @@
 
     const getUserOrder = async () => {
         const res = await getUserOrderAPI(params.value)
-        // console.log(res);
+        console.log(res);
         orderList.value = res.result.items
     }
 
     onMounted(() => getUserOrder())
+
+    // todo: tab切换
+    const tabChange = type => {
+        console.log(type);
+        // 获取tab切换的orderState，传给后端
+        params.value.orderState = type
+        getUserOrder()
+    }
 </script>
 
 <template>
     <div class="order-container">
-        <el-tabs>
+        <el-tabs @tab-change="tabChange">
             <!-- tab切换 -->
             <el-tab-pane v-for="item in tabTypes" :key="item.name" :label="item.label" />
 
