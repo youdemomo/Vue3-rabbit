@@ -15,6 +15,7 @@
 
     // todo: 订单列表
     const orderList = ref([])
+    const total = ref(0) // 订单总数
     const params = ref({
         orderState: 0,
         page: 1,
@@ -25,6 +26,7 @@
         const res = await getUserOrderAPI(params.value)
         console.log(res);
         orderList.value = res.result.items
+        total.value = res.result.counts
     }
 
     onMounted(() => getUserOrder())
@@ -36,6 +38,14 @@
         params.value.orderState = type
         getUserOrder()
     }
+
+    // todo: 分页显示订单
+    const pageChange = page => {
+        console.log(page);
+        params.value.pageSize = page
+        getUserOrder()
+    }
+
 </script>
 
 <template>
@@ -117,7 +127,8 @@
                     </div>
                     <!-- 分页 -->
                     <div class="pagination-container">
-                        <el-pagination background layout="prev, pager, next" />
+                        <el-pagination @current-change="pageChange" :total="total" :pageSize="params.pageSize"
+                            background layout="prev, pager, next" />
                     </div>
                 </div>
             </div>
